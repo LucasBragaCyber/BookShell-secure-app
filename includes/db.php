@@ -1,37 +1,48 @@
 <?php
-$imageFile = __DIR__ . "/hidden.jpg"; // Caminho absoluto
-$marker = "--CRED--";
+// db.php
 
-// Lê conteúdo binário da imagem
-$data = file_get_contents($imageFile);
-if ($data === false) {
-    die("Erro ao ler a imagem.");
+// Define a chave mestra (Deve ser IGUAL a usada no setup_db.php)
+
+define('DB_KEY', 'xKZglAeweh1cMLTd8u3dASMjKhRinAeY');
+
+$arquivoCredenciais = __DIR__ . '/../../BookShell/credenciais.enc';
+
+if (!file_exists($arquivoCredenciais)) {
+    die("Erro Crítico: Arquivo de configuração de banco de dados ausente.");
 }
 
-// Garante tipo string
-$data = strval($data);
+// 1. Ler o conteúdo criptografado
+$payload = file_get_contents($arquivoCredenciais);
+$dadosBinarios = base64_decode($payload);
 
-// Localiza o marcador
-$pos = strpos($data, $marker);
-if ($pos === false) {
-    die("Credenciais não encontradas na imagem.");
-}
+// 2. Extrair IV e Dados
+$metodo = 'aes-256-cbc';
+$ivLength = openssl_cipher_iv_length($metodo);
+$iv = substr($dadosBinarios, 0, $ivLength);
+$dadosCriptografados = substr($dadosBinarios, $ivLength);
 
-// Extrai e limpa o JSON
-$json = substr($data, $pos + strlen($marker));
-$json = preg_replace('/[^[:print:]]/', '', $json);
-$creds = json_decode(trim($json), true);
+// 3. Descriptografar
+$json = openssl_decrypt($dadosCriptografados, $metodo, DB_KEY, 0, $iv);
+$creds = json_decode($json, true);
 
 if (!$creds) {
-    die("Falha ao decodificar credenciais.");
+    die("Erro Crítico: Falha ao descriptografar credenciais do banco.");
 }
 
-// Conecta ao banco
-$conn = new mysqli($creds['host'], $creds['user'], $creds['pass'], $creds['dbname']);
+// 4. Conectar usando MySQLi
+/* DICA DE SEGURANÇA: O 'mysqli_report' ajuda a pegar erros de SQL sem expor dados sensíveis 
+   se configurado corretamente, mas em dev ajuda muito.
+*/
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if ($conn->connect_error) {
-    die("Erro na conexão: " . $conn->connect_error);
+try {
+    $conn = new mysqli($creds['host'], $creds['user'], $creds['pass'], $creds['dbname']);
+    $conn->set_charset("utf8mb4"); // Importante para caracteres especiais
+} catch (mysqli_sql_exception $e) {
+    // Log do erro real no servidor (error_log) e mensagem genérica para o usuário
+    error_log($e->getMessage()); 
+    die("Erro de conexão com o banco de dados."); 
 }
 
-// echo "✅ Conectado com sucesso ao banco! ✅";
+// A variável $conn está pronta para uso!
 ?>
