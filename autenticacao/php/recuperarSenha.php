@@ -31,7 +31,7 @@ $stmt->store_result();
 
 if ($stmt->num_rows == 0) {
     // E-mail inexistente
-    echo json_encode(["sucesso" => false, "mensagem" => "E-mail não encontrado."]);
+    echo json_encode(["sucesso" => false, "mensagem" => "E-mail informado inválido ou não existe."]);
     exit;
 }
 $stmt->close();

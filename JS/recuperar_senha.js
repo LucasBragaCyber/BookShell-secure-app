@@ -1,14 +1,13 @@
 document.getElementById('formRecuperacao').addEventListener('submit', async function (e) {
-    e.preventDefault(); // Impede o recarregamento
+    e.preventDefault();
 
     const emailInput = document.getElementById('email');
     const email = emailInput.value;
     const btn = this.querySelector('button');
-    const textoOriginal = btn.innerHTML;
-    const form = document.getElementById('formRecuperacao'); // Pegamos o formulário inteiro
-
-    // Feedback visual de carregamento
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
+    // Salva o texto original do botão ("Enviar código")
+    const textoOriginal = "Enviar código";
+    // 1. Estado de Carregamento
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Verificando...';
     btn.disabled = true;
 
     try {
@@ -18,10 +17,13 @@ document.getElementById('formRecuperacao').addEventListener('submit', async func
             body: JSON.stringify({ email: email })
         });
 
+        // Tenta converter a resposta em JSON
         const result = await response.json();
 
         if (result.sucesso) {
-            // SUCESSO: Substitui o formulário pela mensagem de confirmação
+            // === CASO DE SUCESSO ===
+            // Substitui o formulário pela mensagem de confirmação
+            const form = document.getElementById('formRecuperacao');
             form.innerHTML = `
                     <div class="text-center animate__animated animate__fadeIn" style="width: 100%;">
                         <span class="login100-form-title bookshell-fonte3 py-3">
@@ -37,31 +39,33 @@ document.getElementById('formRecuperacao').addEventListener('submit', async func
                             <strong>${email}</strong>
                         </p>
                         
-                        <p class="text-muted mb-4 small">
-                            (Verifique também sua caixa de Spam)
-                        </p>
-
                         <div class="container-login100-form-btn">
                             <a href="./autenticacao.html" class="login100-form-btn fonte-2 text-decoration-none text-white">
-                                Fazer Login
+                                Voltar ao Login
                             </a>
                         </div>
                     </div>
                 `;
         } else {
-            // ERRO: Mantém o SweetAlert para avisos rápidos
+            // === CASO DE ERRO (E-mail não existe, etc) ===
             Swal.fire({
-                icon: 'error',
+                icon: 'warning', // Ícone de alerta amarelo (melhor que erro vermelho para validação)
                 title: 'Atenção',
-                text: result.mensagem,
+                text: result.mensagem, // Aqui virá: "E-mail informado inválido ou não existe"
                 confirmButtonColor: '#d33'
             });
+
+            // RESTAURA O BOTÃO
             btn.innerHTML = textoOriginal;
             btn.disabled = false;
         }
+
     } catch (error) {
+        // === CASO DE ERRO TÉCNICO (Servidor fora, bug no PHP) ===
         console.error(error);
-        Swal.fire('Erro', 'Falha na comunicação com o servidor.', 'error');
+        Swal.fire('Erro', 'Ocorreu um erro ao processar sua solicitação.', 'error');
+
+        // RESTAURA O BOTÃO TAMBÉM AQUI
         btn.innerHTML = textoOriginal;
         btn.disabled = false;
     }
