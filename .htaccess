@@ -1,8 +1,12 @@
-<Files "credenciais.enc">
+<Files "anotacoes.txt">
     Require all denied
 </Files>
 
-<Files "anotacoes.txt">
+<Files "Dockerfile">
+    Require all denied
+</Files>
+
+<Files "docker-compose.yml">
     Require all denied
 </Files>
 

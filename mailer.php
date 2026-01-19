@@ -31,11 +31,8 @@ function enviarEmailAtivacao($email, $nome, $token)
         $mail->Subject = 'Confirmacao de Cadastro';
 
         // link localhost       http://localhost/BookShell/autenticacao/php/ativar.php?token=
-        // link do laragon      http://projetoweb.test/BookShell/autenticacao/php/ativar.php
 
-        //$link = "http://projetoweb.test/BookShell/autenticacao/php/ativar.php?token=" . $token;  // para o Laragon
-
-        $link = "http://localhost/BookShell/autenticacao/php/ativar.php?token=" . $token;          // para o localhost (MAMP)
+        $link = "http://localhost:8080/BookShell/autenticacao/php/ativar.php?token=" . $token;          // para o Docker
         $mail->Body = "
             <h3>Olá, $nome!</h3>
             <p>Confirme seu cadastro clicando no botão abaixo:</p>

@@ -5,7 +5,7 @@
 
 define('DB_KEY', 'xKZglAeweh1cMLTd8u3dASMjKhRinAeY');
 
-$arquivoCredenciais = __DIR__ . '/../../BookShell/credenciais.enc';
+$arquivoCredenciais = __DIR__ . '/credenciais.enc';
 
 if (!file_exists($arquivoCredenciais)) {
     die("Erro Crítico: Arquivo de configuração de banco de dados ausente.");

@@ -4,13 +4,13 @@
 // RODAR ESTE ARQUIVO UMA VEZ PARA GERAR O 'credenciais.enc' E DEPOIS APAGAR/PROTEGER.
 // PROTEGER: Depois de rodar, colocar ele na pasta 'chaves', onde é protegido pelo .htaccess
 
-// Para rodar o arquivo: http://localhost/BookShell/setup_db.php
+// Para rodar o arquivo: http://localhost/includes/BookShell/setup_db.php
 
 // 1. Definição das credenciais de conexão ao banco
 $credenciais = [
-    'host'   => 'localhost',
-    'user'   => 'braga',
-    'pass'   => 'senha123',
+    'host'   => 'db',
+    'user'   => 'root',
+    'pass'   => 'root',
     'dbname' => 'cadastro_bookshell'
 ];
 
@@ -32,7 +32,7 @@ $payload = base64_encode($iv . $dadosCriptografados);
 // 4. Salva no arquivo
 if (file_put_contents(__DIR__ . '/credenciais.enc', $payload)) {
     echo "Arquivo 'credenciais.enc' gerado com sucesso! <br>";
-    echo "Agora configure seu db.php e apague este arquivo setup_db.php.";
+    echo "Arquivo 'includes/credenciais.enc' atualizado para Docker! <br>";
 } else {
     echo "Erro ao gravar arquivo.";
 }

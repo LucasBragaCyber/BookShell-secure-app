@@ -52,7 +52,7 @@ $stmt->close();
 
 // 4. Enviar E-mail
 $mail = new PHPMailer(true);
-$link = "http://localhost/BookShell/autenticacao/html/verificartrocadesenha.html?token=" . $token;
+$link = "http://localhost:8080/BookShell/autenticacao/html/verificartrocadesenha.html?token=" . $token;
 
 try {
     $mail->isSMTP();

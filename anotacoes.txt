@@ -16,3 +16,7 @@
 
     c. Extração da chave pública a partir da chave privada:
         openssl rsa -pubout -in privada.pem -out publica.pem
+
+4. Configuração do ambiente DOCKER:
+    a. Rodar no terminal do VSCode, na pasta raíz (Onde tem o Dockerfile):
+        docker compose up -d --build
