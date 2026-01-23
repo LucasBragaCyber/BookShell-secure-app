@@ -114,8 +114,8 @@ Ambiente **totalmente dockerizado**, garantindo que a aplicação rode em um amb
 
 **1. Clone o repositório:**
 ```bash
-git clone https://github.com/LucasBragaCyber/Web_App_Seguro.git
-cd Web_App_Seguro
+git clone https://github.com/LucasBragaCyber/BookShell-secure-app.git
+cd BookShell-secure-app
 ```
 
 **2. Suba os containers:**
