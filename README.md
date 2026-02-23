@@ -17,8 +17,9 @@ Uma aplicação web de cafeteria e aluguel de livros construída com foco em **S
 
 ## 📖 Sobre o Projeto
 
-O **BookShell** é uma plataforma web que integra a experiência de uma cafeteria com um serviço de aluguel de livros para usuários cadastrados.  
-O objetivo principal deste projeto não é apenas entregar as funcionalidades de negócio, mas servir como um **laboratório prático** para implementação de **arquitetura segura**, **mitigação de vulnerabilidades (OWASP Top 10)**, testes de ferramentas de segurança ofensiva **(Pentest)** e práticas de **criptografia avançada**, como também práticas de codificação segura.
+- O **BookShell** é uma plataforma web que integra a experiência de uma cafeteria com um serviço de aluguel de livros para usuários cadastrados.
+- Desenvolvido levando em consideração a responsividade, experiência de usuário e interface de usuário (UX/UI) para uma experiência equilibrada e agradável entre **Usabilidade** e **Segurança.**
+- O **objetivo principal** deste projeto não é apenas entregar as funcionalidades de negócio e simular uma navegação agradável de front end, mas também servir como um **laboratório prático** para implementação de **arquitetura segura**, **mitigação de vulnerabilidades (OWASP Top 10)**, testes de ferramentas de segurança ofensiva **(Pentest)** e práticas de **criptografia avançada**, como também práticas de codificação segura.
 
 ---
 
